@@ -1,0 +1,13 @@
+export type RealmClass = Readonly<{ key: string; display_name: string; description: string; weapon_affinities: readonly string[]; contributions: Readonly<Record<string, number>>; specializations: readonly RealmSpecialization[] }>;
+export type RealmSpecialization = Readonly<{ key: string; parent_class_key: string; display_name: string; description: string; combat_identity: string; future_stat_direction: readonly string[]; skill_themes: readonly string[]; tradeoff: string; contributions: Readonly<Record<string, number>> }>;
+export const STAT_KEYS: readonly string[];
+export const CLASS_KEYS: readonly string[];
+export const SPECIALIZATION_KEYS: readonly string[];
+export const PHASE4D_CLASS_CONTENT_VERSION: number;
+export const PHASE4D_CLASS_CONTENT_KEY: string;
+export const PHASE4D_CLASS_CONTENT_HASH: string;
+export const PHASE4D_CLASS_CONTENT_CANONICAL: string;
+export const PHASE4D_CLASS_CONTENT: Readonly<{ content_version: number; content_key: string; classes: readonly RealmClass[] }>;
+export function contributions(values?: Record<string, number>): Readonly<Record<string, number>>;
+export function canonicalSerialize(content: unknown): string;
+export function contentHash(content: unknown): string;
