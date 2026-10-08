@@ -10,4 +10,3 @@ export const PHASE4D_CLASS_CONTENT_CANONICAL: string;
 export const PHASE4D_CLASS_CONTENT: Readonly<{ content_version: number; content_key: string; classes: readonly RealmClass[] }>;
 export function contributions(values?: Record<string, number>): Readonly<Record<string, number>>;
 export function canonicalSerialize(content: unknown): string;
-export function contentHash(content: unknown): string;
