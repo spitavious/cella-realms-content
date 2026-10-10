@@ -1,6 +1,6 @@
 {
   "name": "@cella/realms-content",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Portable public canonical content for Cella Realms.",
   "main": "index.js",
   "types": "index.d.ts",
