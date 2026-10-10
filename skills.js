@@ -1,6 +1,5 @@
 "use strict";
 
-const { createHash } = require("node:crypto");
 function freeze(value) { if (!value || typeof value !== "object" || Object.isFrozen(value)) return value; Object.freeze(value); for (const child of Object.values(value)) freeze(child); return value; }
 function canonicalize(value) { if (value === null || typeof value === "string" || typeof value === "boolean") return value; if (typeof value === "number") { if (!Number.isFinite(value) || Object.is(value, -0)) throw new TypeError("Canonical content numbers must be finite."); return value; } if (Array.isArray(value)) return value.map(canonicalize); if (value && typeof value === "object" && (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null)) return Object.fromEntries(Object.keys(value).sort().map((key) => [key, canonicalize(value[key])])); throw new TypeError("Canonical content supports only JSON-safe plain values."); }
 function canonicalSerialize(content) { return JSON.stringify(canonicalize(content)); }
@@ -15,6 +14,7 @@ const SKILL_CONTENT = freeze({ content_version: SKILL_CONTENT_VERSION, content_k
   { key: "rend", display_name: "Rend", description: "A vicious attack that turns aggression into finishing pressure.", theme: "pressure / finishing damage", unlock_level: 5, class_key: "reaver", specialization_key: null },
 ] });
 const SKILL_CONTENT_CANONICAL = canonicalSerialize(SKILL_CONTENT);
-const SKILL_CONTENT_HASH = createHash("sha256").update(SKILL_CONTENT_CANONICAL).digest("hex");
+// Precomputed from SKILL_CONTENT_CANONICAL. Keep this package browser-safe.
+const SKILL_CONTENT_HASH = "0667d87ce94d6e6573c9504cef0a529a8d99443bd62ceddc56ebe160415de81b";
 function getUnlockedSkills({ level, classKey, specializationKey = null }) { if (!Number.isInteger(level) || level < 1 || typeof classKey !== "string" || specializationKey !== null && typeof specializationKey !== "string") return Object.freeze([]); return Object.freeze(SKILL_CONTENT.skills.filter((skill) => skill.class_key === classKey && skill.specialization_key === null && level >= skill.unlock_level).map((skill) => freeze({ ...skill }))); }
 module.exports = { SKILL_CONTENT_VERSION, SKILL_CONTENT_KEY, SKILL_CONTENT_HASH, SKILL_CONTENT_CANONICAL, SKILL_CONTENT, getUnlockedSkills, canonicalSerialize };
